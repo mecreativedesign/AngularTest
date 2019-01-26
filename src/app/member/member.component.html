@@ -1,0 +1,43 @@
+<header id="header">
+      <h1>Robin Saha</h1>  
+</header>
+<form autocomplete="off" [formGroup]="DataForm">
+  <div formArrayName="members" class="FormData">
+    <div class="sortBy">
+      <button type="button" (click)="Sort()" class="{{sort_direction == 1 ? 'up':'down'}}">Sort By Date</button>
+    </div>
+    <div class="FormRow {{Members[i].class}}" *ngFor="let member of membersArray.controls;let i = index" [formGroupName]="i">
+      <div class="FormCol details">
+              <div class="block">
+                  <header>Land Cover</header>
+                  <section>{{Members[i].landobservations[0].landcover}}</section>
+              </div>
+              <div class="block">
+                  <header>Land Use</header>
+                  <section>{{Members[i].landobservations[0].landuse}}</section>
+              </div>    
+              <div class="block">
+                  <header>Date</header>
+                  <section>{{Members[i].timestamp | date:'medium' }}</section>
+              </div>    
+      </div>
+      <div class="FormPhoto">
+        <h2>Pictures</h2>
+        <ul>
+            <li *ngFor="let img of Members[i].photos">
+              <a [href]="img.url" target="_blank"><img [src]="img.url" /></a>
+              <h4>{{img.direction}}</h4>
+            </li>
+          </ul>
+      </div>
+      <div class="FormMsg">
+        <h2>Comment</h2>
+        <textarea  formControlName="comment"></textarea>
+      </div>
+      <div class="FormAction">
+        <button type="button" class="btnApprove" [disabled]="membersArray.controls[i].invalid" (click)="MakeDecision(i, 1)">Approve</button>
+        <button class="btnReject" [disabled]="membersArray.controls[i].invalid" type="button" (click)="MakeDecision(i, 2)">Reject</button>
+      </div>
+    </div>
+  </div>
+</form>
